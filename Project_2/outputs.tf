@@ -1,6 +1,6 @@
 locals {
-	private_ip = google_compute_instance.win_vm_instance.network_interface[0].network_ip
-	public_ip = google_compute_instance.win_vm_instance.network_interface[0].access_config[0].nat_ip
+	private_ip = google_compute_instance.win_vm_instance[*].network_interface[*].network_ip
+	public_ip = google_compute_instance.win_vm_instance[*].network_interface[*].access_config[*].nat_ip
 }
 
 output "vm_private_ip" {

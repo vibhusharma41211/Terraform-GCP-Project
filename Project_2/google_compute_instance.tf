@@ -1,5 +1,6 @@
 resource google_compute_instance win_vm_instance {
-    name = var.vm_specs.name
+    count = var.vm_count
+    name = "${var.vm_specs.name}-${count.index}"
     zone = var.vm_specs.zone
     machine_type = var.vm_specs.machine_type
     metadata_startup_script = file("install_nginx.sh")
@@ -25,15 +26,17 @@ resource google_compute_instance win_vm_instance {
 }
 
 resource google_compute_disk data_disk_win_vm {
-    name = var.data_disk.name
+    count = var.vm_count
+    name = "${var.data_disk.name}-${count.index}"
     type = var.data_disk.type
     zone = var.data_disk.zone
     size = var.data_disk.size
 }
 
 resource google_compute_attached_disk attach_disk {
-    disk = google_compute_disk.data_disk_win_vm.id
-    instance = google_compute_instance.win_vm_instance.id
+    count = var.vm_count
+    disk = google_compute_disk.data_disk_win_vm[count.index].id
+    instance = google_compute_instance.win_vm_instance[count.index].id
 }
 
 # All Firewall Rules

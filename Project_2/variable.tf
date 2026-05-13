@@ -40,6 +40,11 @@ variable "data_disk" {
     name = "win-vm-automatic-disk1"
     type = "pd-ssd"
     zone = "asia-south2-b"
-    size = 100
+    size = 20
   }
+}
+
+variable "vm_count" {
+  type = number
+   default = 2
 }
